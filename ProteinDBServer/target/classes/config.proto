@@ -1,0 +1,14 @@
+syntax = "proto2";
+
+option java_package = "com.proto";
+option java_outer_classname = "ConfigStore";
+
+message Config{
+    required DB db=1;
+}
+message DB {
+    required string url=1;
+    required string driver=2;
+    optional string user=3 [default = "root"];
+    optional string password=4 [default = "root"];
+}

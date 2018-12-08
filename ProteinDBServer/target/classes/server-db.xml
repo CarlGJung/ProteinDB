@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="longtext.type" value="clob" dbms="oracle"/>
+    <property name="longtext.type" value="longtext" dbms="mysql"/>
+    <property name="longtext.type" value="longtext" dbms="h2"/>    
+    <property name="longtext.type" value="text" dbms="sqlite"/>
+    <property name="bigint.type" value="bigint" dbms="oracle"/>
+    <property name="bigint.type" value="bigint" dbms="mysql"/>
+    <property name="bigint.type" value="bigint" dbms="h2"/>
+    <property name="bigint.type" value="int" dbms="sqlite"/>
+    <property name="now" value="CURRENT TIMESTAMP" dbms="h2"/>
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="now" value="sysdate" dbms="oracle"/>
+    
+    
+    <changeSet author="zhanghaijun" id="creat-mysql-database" runOnChange="true"  runAlways="true" failOnError="false">
+        <sql dbms="mysql" splitStatements="true" stripComments="true">
+            ALTER DATABASE ${database.liquibaseSchemaName}  DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_bin
+            <comment>make sure we use utf-8 for database</comment>
+        </sql>
+    </changeSet>
+    <changeSet id="create-table-user" author="zhanghaijun">
+        <createTable tableName="users">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="varchar(50)"/>
+            <column name="password" type="varchar(50)"/>
+            <column name="nickname" type="varchar(50)"/>
+            <column name="email" type="varchar(255)" defaultValue=""/>
+            <column name="phone" type="varchar(100)" defaultValue=""/>
+            
+            <column name="status" type="int" defaultValueNumeric="0"/>
+            <column name="created_at" type="datetime" />
+            <column name="created_by" type = "int" />
+            <column name="updated_at" type="datetime" />
+            <column name="updated_by" type = "int" />
+        </createTable>
+    </changeSet>
+    <changeSet id="initcreate-table-proteins" author="zhanghaijun">
+        <createTable tableName="proteins">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="pid" type="varchar(50)"/>
+            <column name="name" type="varchar(50)"/>
+            <column name="category" type="varchar(50)"/>
+            <column name="squnence" type="${longtext.type}"/>
+            <column name="secondary" type="${longtext.type}"/>
+            <column name="tertiary" type="varchar(255)"/>
+            <column name="go" type="varchar(255)"/>
+            <column name="pathway_id" type = "int" />
+            
+            <column name="status" type="int" defaultValueNumeric="0"/>
+            <column name="created_at" type="datetime" />
+            <column name="created_by" type = "int" />
+            <column name="updated_at" type="datetime" />
+            <column name="updated_by" type = "int" />
+        </createTable>
+        <createTable tableName="sources">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+            
+            <column name="status" type="int" defaultValueNumeric="0"/>
+            <column name="created_at" type="datetime" />
+            <column name="created_by" type = "int" />
+            <column name="updated_at" type="datetime" />
+            <column name="updated_by" type = "int" />
+        </createTable>
+        <createTable tableName="protein_sources">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="protein_id" type="int"/>
+            <column name="sources_id" type="int"/>
+            
+            <column name="created_at" type="datetime" />
+            <column name="created_by" type = "int" />
+            <column name="updated_at" type="datetime" />
+            <column name="updated_by" type = "int" />
+        </createTable>
+        <createTable tableName="family">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+            
+            <column name="status" type="int" defaultValueNumeric="0"/>
+            <column name="created_at" type="datetime" />
+            <column name="created_by" type = "int" />
+            <column name="updated_at" type="datetime" />
+            <column name="updated_by" type = "int" />
+        </createTable>
+        <createTable tableName="protein_family">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="protein_id" type="int"/>
+            <column name="family_id" type="int"/>
+            
+            <column name="created_at" type="datetime" />
+            <column name="created_by" type = "int" />
+            <column name="updated_at" type="datetime" />
+            <column name="updated_by" type = "int" />
+        </createTable>
+        <createTable tableName="pathway">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+            <column name="outer_url" type="varchar(255)"/>
+            <column name="image_path" type="varchar(255)"/>
+            
+            <column name="created_at" type="datetime" />
+            <column name="created_by" type = "int" />
+            <column name="updated_at" type="datetime" />
+            <column name="updated_by" type = "int" />
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>
